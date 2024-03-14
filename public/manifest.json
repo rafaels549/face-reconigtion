@@ -1,0 +1,17 @@
+{
+    "name": "Reconhecimento Facial",
+    "short_name": "RF",
+    "start_url": "/login",
+    "background_color": "#6777ef",
+    "description": "Reconhecimento Facial",
+    "display": "fullscreen",
+    "theme_color": "#6777ef",
+    "icons": [
+        {
+            "src": "reconhecimentofacial.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}

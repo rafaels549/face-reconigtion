@@ -1,0 +1,51 @@
+<?php
+
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReconhecimentoController;
+use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
+use App\Http\Controllers\CadastroController;
+use App\Http\Controllers\FuncionarioController;
+use App\Http\Controllers\Ponto;
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+Route::get('/', function () {
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
+});
+
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/reconhecer', [ReconhecimentoController::class, 'index'])->name('reconhecer.index');
+    Route::post('/enviar-dados', [ReconhecimentoController::class, 'reconhecer']);
+    Route::get('/cadastro', [CadastroController::class, 'index'])->name('cadastro.index');
+    Route::post('/cadastrar', [CadastroController::class, 'cadastrar']); 
+ Route::get('/funcionarios', [FuncionarioController::class, 'index'])->name('funcionarios.index');;
+   Route::get('/pontos' , [Ponto::class , "index"] )->name('pontos.index');
+   Route::get('/pontos/{date}' , [Ponto::class, "scans"] );
+   Route::get('funcionario/{id}', [FuncionarioController::class, "editar"])->name('funcionario.editar');
+   Route::post('funcionario/{id}', [FuncionarioController::class, "salvar"]);
+     
+});
+
+require __DIR__.'/auth.php';
